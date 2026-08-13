@@ -58,7 +58,13 @@
 		3C0BB02E14DF3D55004A90E8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C0BB02D14DF3D55004A90E8 /* Cocoa.framework */; };
 		3C0BB03814DF3D55004A90E8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3C0BB03614DF3D55004A90E8 /* InfoPlist.strings */; };
 		3C0BB03A14DF3D55004A90E8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0BB03914DF3D55004A90E8 /* main.m */; };
-		3C0BB04C14DF3D56004A90E8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C0BB04B14DF3D56004A90E8 /* SenTestingKit.framework */; };
+		AB01000000000000000001B1 /* FNPDFImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AB01000000000000000001F1 /* FNPDFImporter.m */; };
+		AB01000000000000000002B1 /* FNPDFRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AB01000000000000000002F1 /* FNPDFRenderer.m */; };
+		AB01000000000000000003B1 /* ConverterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB01000000000000000003F1 /* ConverterTests.m */; };
+		AC01000000000000000001B1 /* FNScriptCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = AC01000000000000000001F1 /* FNScriptCheck.m */; };
+		AC01000000000000000002B1 /* CheckTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC01000000000000000002F1 /* CheckTests.m */; };
+		AA3D634C17EA93E200DA48F3 /* RegressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2D634C17EA93E200DA48F2 /* RegressionTests.m */; };
+		AA1D634C17EA93E200DA48F1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 149D634C17EA93E200DA482C /* XCTest.framework */; };
 		3C0BB04D14DF3D56004A90E8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C0BB02D14DF3D55004A90E8 /* Cocoa.framework */; };
 		3C0BB05514DF3D56004A90E8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3C0BB05314DF3D56004A90E8 /* InfoPlist.strings */; };
 		3C0BB06B14DF3D76004A90E8 /* FNScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0BB06214DF3D76004A90E8 /* FNScript.m */; };
@@ -164,7 +170,13 @@
 		3C0BB03714DF3D55004A90E8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3C0BB03914DF3D55004A90E8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "../Sample Project Mac/main.m"; sourceTree = "<group>"; };
 		3C0BB03B14DF3D55004A90E8 /* Fountain-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Fountain-Prefix.pch"; path = "../Sample Project Mac/Fountain-Prefix.pch"; sourceTree = "<group>"; };
-		3C0BB04A14DF3D56004A90E8 /* FountainTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FountainTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C0BB04A14DF3D56004A90E8 /* FountainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FountainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB01000000000000000001F1 /* FNPDFImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNPDFImporter.m; path = ../pdf2fountain/FNPDFImporter.m; sourceTree = "<group>"; };
+		AB01000000000000000002F1 /* FNPDFRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNPDFRenderer.m; path = ../fountain2pdf/FNPDFRenderer.m; sourceTree = "<group>"; };
+		AB01000000000000000003F1 /* ConverterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConverterTests.m; sourceTree = "<group>"; };
+		AC01000000000000000001F1 /* FNScriptCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNScriptCheck.m; path = ../fountain-dump/FNScriptCheck.m; sourceTree = "<group>"; };
+		AC01000000000000000002F1 /* CheckTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckTests.m; sourceTree = "<group>"; };
+		AA2D634C17EA93E200DA48F2 /* RegressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegressionTests.m; sourceTree = "<group>"; };
 		3C0BB04B14DF3D56004A90E8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		3C0BB05214DF3D56004A90E8 /* FountainTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FountainTests-Info.plist"; sourceTree = "<group>"; };
 		3C0BB05414DF3D56004A90E8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -231,7 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C0BB04C14DF3D56004A90E8 /* SenTestingKit.framework in Frameworks */,
+				AA1D634C17EA93E200DA48F1 /* XCTest.framework in Frameworks */,
 				3C0BB04D14DF3D56004A90E8 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,6 +254,12 @@
 		146059F917E8FBA000B7B611 /* Element Tests */ = {
 			isa = PBXGroup;
 			children = (
+				AB01000000000000000001F1 /* FNPDFImporter.m */,
+				AB01000000000000000002F1 /* FNPDFRenderer.m */,
+				AB01000000000000000003F1 /* ConverterTests.m */,
+				AC01000000000000000001F1 /* FNScriptCheck.m */,
+				AC01000000000000000002F1 /* CheckTests.m */,
+				AA2D634C17EA93E200DA48F2 /* RegressionTests.m */,
 				146059FA17E8FCEA00B7B611 /* BaseElementTests.h */,
 				146059FB17E8FCEA00B7B611 /* BaseElementTests.m */,
 				3CA5EE5518D3D76C00458AAF /* ForcedElementTests.m */,
@@ -360,7 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				3C0BB02914DF3D55004A90E8 /* Sample Project Mac.app */,
-				3C0BB04A14DF3D56004A90E8 /* FountainTests.octest */,
+				3C0BB04A14DF3D56004A90E8 /* FountainTests.xctest */,
 				149D632C17EA93E100DA482C /* Sample Project iOS.app */,
 			);
 			name = Products;
@@ -526,7 +544,6 @@
 				3C0BB04514DF3D56004A90E8 /* Sources */,
 				3C0BB04614DF3D56004A90E8 /* Frameworks */,
 				3C0BB04714DF3D56004A90E8 /* Resources */,
-				3C0BB04814DF3D56004A90E8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -535,8 +552,8 @@
 			);
 			name = FountainTests;
 			productName = FountainTests;
-			productReference = 3C0BB04A14DF3D56004A90E8 /* FountainTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 3C0BB04A14DF3D56004A90E8 /* FountainTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -624,22 +641,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		3C0BB04814DF3D56004A90E8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		149D632817EA93E100DA482C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -683,6 +684,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				146059FC17E8FCEA00B7B611 /* BaseElementTests.m in Sources */,
+				AB01000000000000000001B1 /* FNPDFImporter.m in Sources */,
+				AB01000000000000000002B1 /* FNPDFRenderer.m in Sources */,
+				AB01000000000000000003B1 /* ConverterTests.m in Sources */,
+				AC01000000000000000001B1 /* FNScriptCheck.m in Sources */,
+				AC01000000000000000002B1 /* CheckTests.m in Sources */,
+				AA3D634C17EA93E200DA48F3 /* RegressionTests.m in Sources */,
 				3C8CD0E614DF58C300F18DE6 /* BigFishTests.m in Sources */,
 				14605A1C17E9005300B7B611 /* IndentingTests.m in Sources */,
 				3C8CD10A14DF7CE600F18DE6 /* BrickAndSteelTests.m in Sources */,
@@ -785,7 +792,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "Sample Project iOS/Sample Project iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -825,7 +832,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "Sample Project iOS/Sample Project iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -863,7 +870,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -891,7 +898,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -934,9 +941,21 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sample Project Mac/Fountain-Prefix.pch";
 				INFOPLIST_FILE = "FountainTests/FountainTests-Info.plist";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Fountain",
+					"$(SRCROOT)/pdf2fountain",
+					"$(SRCROOT)/fountain2pdf",
+					"$(SRCROOT)/fountain-dump",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Quartz,
+					"-framework",
+					CoreText,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
@@ -950,9 +969,21 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sample Project Mac/Fountain-Prefix.pch";
 				INFOPLIST_FILE = "FountainTests/FountainTests-Info.plist";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Fountain",
+					"$(SRCROOT)/pdf2fountain",
+					"$(SRCROOT)/fountain2pdf",
+					"$(SRCROOT)/fountain-dump",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Quartz,
+					"-framework",
+					CoreText,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};

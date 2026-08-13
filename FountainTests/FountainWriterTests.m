@@ -62,7 +62,7 @@
     
     NSString *input = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSString *output = [self.script stringFromDocument];
-    STAssertEqualObjects(output, input, @"\nElements: %@", self.script.elements);
+    XCTAssertEqualObjects(output, input, @"\nElements: %@", self.script.elements);
 }
 
 @end

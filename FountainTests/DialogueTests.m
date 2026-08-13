@@ -40,37 +40,37 @@
 - (void)testCharacterCue
 {
 	NSUInteger index = 0;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testCueWithParenthetical
 {
 	NSUInteger index = 2;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testCueWithLowercaseContd
 {
 	NSUInteger index = 9;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testCharacterCueWithNumbers
 {
 	NSUInteger index = 20;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testCueCannotBeALLNumerical
 {
 	NSUInteger index = 23;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testCueCanBeIndented
 {
 	NSUInteger index = 27;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 
@@ -79,20 +79,20 @@
 - (void)testCueWithCaret
 {
 	NSUInteger index = 18;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testMatchingDualDialogue
 {
 	NSUInteger index = 16;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testRemovalOfCaretMarkup
 {
 	NSUInteger index = 18;
 	NSString *expected = @"EVE";
-	STAssertEqualObjects([self elementTextAtIndex:index], expected, [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTextAtIndex:index], expected, @"%@", [self errorForIndex:index]);
 }
 
 
@@ -101,19 +101,19 @@
 - (void)testParenthetical
 {
 	NSUInteger index = 5;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Parenthetical", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Parenthetical", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testParentheticalAtEndOfBlock
 {
 	NSUInteger index = 15;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Parenthetical", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Parenthetical", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testParentheticalCanBeIndent
 {
 	NSUInteger index = 28;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Parenthetical", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Parenthetical", @"%@", [self errorForIndex:index]);
 }
 
 #pragma mark Dialogue
@@ -121,31 +121,31 @@
 - (void)testDialogue
 {
 	NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testDialogueWithLineBreaks
 {
 	NSUInteger index = 12;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testDialogueAllCaps
 {
 	NSUInteger index = 8;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testDialogueWithEmptyLineInTheMiddle
 {
 	NSUInteger index = 26;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testDialogueCanBeIndented
 {
 	NSUInteger index = 29;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", @"%@", [self errorForIndex:index]);
 }
 
 @end

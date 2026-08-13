@@ -39,43 +39,43 @@
 - (void)testCutTo
 {
 	NSUInteger index = 0;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testSmashCutTo
 {
 	NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testFadeToBlack
 {
 	NSUInteger index = 2;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testForcedTransition
 {
 	NSUInteger index = 3;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testNotTransitionWithTrailingSpaces
 {
 	NSUInteger index = 4;
-	STAssertFalse([[self elementTypeAtIndex:index] isEqualToString:@"Transition"], [self errorForIndex:index]);
+	XCTAssertFalse([[self elementTypeAtIndex:index] isEqualToString:@"Transition"], @"%@", [self errorForIndex:index]);
 }
 
 - (void)testCustomTransitionEndingWithTo
 {
 	NSUInteger index = 5;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testMinimumTransition
 {
 	NSUInteger index = 6;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", @"%@", [self errorForIndex:index]);
 }
 
 @end

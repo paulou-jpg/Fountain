@@ -39,19 +39,19 @@
 - (void)testSynopsis
 {
 	NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Synopsis", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Synopsis", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testSynopsisWithoutSpaceBetweenMarkAndText
 {
 	NSUInteger index = 3;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Synopsis", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Synopsis", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testAllCapsSynopsis
 {
 	NSUInteger index = 5;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Synopsis", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Synopsis", @"%@", [self errorForIndex:index]);
 }
 
 @end

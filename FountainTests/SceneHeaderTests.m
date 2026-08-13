@@ -39,85 +39,85 @@
 - (void)testInt
 {	
 	NSUInteger index = 0;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testExt
 {
 	NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testSpaceSeparators
 {
 	NSUInteger index = 2;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 	
 	index = 3;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testIntExt
 {
 	NSUInteger index = 4;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testAbbreviatedIntExt
 {
 	NSUInteger index = 6;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 	
 	index = 7;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 
 	index = 8;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testESTHeader
 {
 	NSUInteger index = 11;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 	
 	index = 12;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testSceneHeaderWithDate
 {
 	NSUInteger index = 13;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testForcedSceneHeader
 {
 	NSUInteger index = 14;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Scene Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testNotAForcedSceneHeader
 {
 	NSUInteger index = 15;
-	STAssertFalse([[self elementTypeAtIndex:index] isEqualToString:@"Scene Heading"], [self errorForIndex:index]);
+	XCTAssertFalse([[self elementTypeAtIndex:index] isEqualToString:@"Scene Heading"], @"%@", [self errorForIndex:index]);
 }
 
 - (void)testRequiresBlankLinesBeforeAndAfter
 {
 	NSUInteger index = 16;
-	STAssertFalse([[self elementTypeAtIndex:index] isEqualToString:@"Scene Heading"], [self errorForIndex:index]);
+	XCTAssertFalse([[self elementTypeAtIndex:index] isEqualToString:@"Scene Heading"], @"%@", [self errorForIndex:index]);
 }
 
 - (void)testNeedsSeparatorAfterPrefix
 {
 	NSUInteger index = 17;
-	STAssertFalse([[self elementTypeAtIndex:index] isEqualToString:@"Scene Heading"], [self errorForIndex:index]);
+	XCTAssertFalse([[self elementTypeAtIndex:index] isEqualToString:@"Scene Heading"], @"%@", [self errorForIndex:index]);
 }
 
 - (void)testNoCaps
 {
 	NSUInteger index = 18;
-	STAssertTrue([[self elementTypeAtIndex:index] isEqualToString:@"Scene Heading"], [self errorForIndex:index]);
+	XCTAssertTrue([[self elementTypeAtIndex:index] isEqualToString:@"Scene Heading"], @"%@", [self errorForIndex:index]);
 }
 
 @end

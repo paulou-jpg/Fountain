@@ -101,13 +101,23 @@
             for (NSInteger depthLevel = 1; depthLevel <= element.sectionDepth; depthLevel++) {
                 [sectionDepthMarkup appendString:@"#"];
             }
-            textToWrite = [sectionDepthMarkup stringByAppendingString:element.elementText];
+            // The parser strips the markup and surrounding space from the text,
+            // so the separator is re-added here.
+            textToWrite = [sectionDepthMarkup stringByAppendingFormat:@" %@", element.elementText];
         }
         else if ([element.elementType isEqualToString:@"Transition"]) {
-            if (![element.elementText isMatchedByRegex:TRANSITION_PATTERN]) {
+            /*
+             TRANSITION_PATTERN is delimited by newlines, so it has to be
+             matched against the text wrapped in them -- the same way the Scene
+             Heading branch above does it. Matching the bare text never
+             succeeded, so every transition was being force-prefixed with "> ".
+             */
+            textToWrite = element.elementText;
+            NSString *delimited = [NSString stringWithFormat:@"\n%@\n", element.elementText];
+            if (![delimited isMatchedByRegex:TRANSITION_PATTERN]) {
                 textToWrite = [NSString stringWithFormat:@"> %@", element.elementText];
             }
-        }        
+        }
         else {
             textToWrite = element.elementText;
         }

@@ -39,13 +39,13 @@
 - (void)testMulilineAction
 {
 	NSUInteger index = 0;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Action", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Action", @"%@", [self errorForIndex:index]);
 	
 	index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Action", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Action", @"%@", [self errorForIndex:index]);
 	
 	index = 2;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Action", [self errorForIndex:index]);	
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Action", @"%@", [self errorForIndex:index]);	
 }
 
 @end

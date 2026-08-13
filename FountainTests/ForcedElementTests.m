@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Nima Yousefi. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "BaseElementTests.h"
 #import "FNElement.h"
 
@@ -25,19 +25,19 @@
 - (void)testForcedAction
 {
     NSUInteger index = 0;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Action", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Action", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testForcedCharacterCue
 {
     NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testLyrics
 {
     NSUInteger index = 4;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Lyrics", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Lyrics", @"%@", [self errorForIndex:index]);
 }
 
 @end

@@ -22,8 +22,8 @@
 //  IN THE SOFTWARE.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface BigFishTests : SenTestCase
+@interface BigFishTests : XCTestCase
 
 @end

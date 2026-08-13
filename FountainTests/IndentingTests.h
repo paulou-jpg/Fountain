@@ -23,7 +23,7 @@
 //  IN THE SOFTWARE.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "BaseElementTests.h"
 
 @interface IndentingTests : BaseElementTests

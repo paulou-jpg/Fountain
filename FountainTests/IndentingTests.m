@@ -39,25 +39,25 @@
 - (void)testTransition
 {
 	NSUInteger index = 0;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testCharacterCue
 {
     NSUInteger index = 3;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Character", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Character", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testDialogue
 {
     NSUInteger index = 4;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Dialogue", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testParenthetical
 {
     NSUInteger index = 6;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Parenthetical", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Parenthetical", @"%@", [self errorForIndex:index]);
 }
 
 @end

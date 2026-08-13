@@ -74,6 +74,21 @@
     return [[elementType lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@"-"];
 }
 
+// Screenplay text is not markup. "HORIZON SAVINGS & LOAN" has to survive the
+// trip into an HTML document intact, so entities are escaped before any of our
+// own tags go in.
++ (NSString *)escapeHTML:(NSString *)text
+{
+    if (!text) {
+        return @"";
+    }
+    NSMutableString *escaped = [NSMutableString stringWithString:text];
+    [escaped replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:NSMakeRange(0, escaped.length)];
+    [escaped replaceOccurrencesOfString:@"<" withString:@"&lt;" options:0 range:NSMakeRange(0, escaped.length)];
+    [escaped replaceOccurrencesOfString:@">" withString:@"&gt;" options:0 range:NSMakeRange(0, escaped.length)];
+    return escaped;
+}
+
 - (NSString *)cssText
 {    
     NSError *error = nil;
@@ -98,7 +113,12 @@
     
     if ([titlePage count] > 0) {
         [body appendString:@"<div id='script-title'>"];
-        
+
+        // Keys we lay out explicitly, in title-page order. Anything else the
+        // author wrote is rendered afterwards rather than being discarded --
+        // the spec places no limit on which keys a title page may carry.
+        NSArray *knownKeys = @[@"title", @"credit", @"authors", @"source", @"draft date", @"contact"];
+
         // Title
         if (titlePage[@"title"]) {
             NSArray *obj = titlePage[@"title"];
@@ -170,6 +190,18 @@
             [body appendFormat:@"<p class='%@'>%@</p>", @"contact", values];
         }
 
+        // Any remaining keys -- "Info:", "Notes:", "Revision:" and friends.
+        for (NSString *key in [[titlePage allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
+            if ([knownKeys containsObject:key]) {
+                continue;
+            }
+            NSMutableString *values = [NSMutableString string];
+            for (NSString *val in titlePage[key]) {
+                [values appendFormat:@"%@<br>", [FNHTMLScript escapeHTML:val]];
+            }
+            [body appendFormat:@"<p class='%@'>%@</p>", [self htmlClassForType:key], values];
+        }
+
         [body appendString:@"</div>"];
     }
     
@@ -212,14 +244,17 @@
                 [body appendString:@"</div>\n</div>\n"];
             }
             
-            NSMutableString *text = [NSMutableString string];            
+            // Escape first, so that markup we add below is the only markup present.
+            NSMutableString *text = [NSMutableString string];
+            NSString *escapedText = [FNHTMLScript escapeHTML:element.elementText];
             if ([element.elementType isEqualToString:@"Scene Heading"] && element.sceneNumber) {
-                [text appendFormat:@"<span class='scene-number-left'>%@</span>", element.sceneNumber];
-                [text appendString:element.elementText];
-                [text appendFormat:@"<span class='scene-number-right'>%@</span>", element.sceneNumber];
+                NSString *escapedNumber = [FNHTMLScript escapeHTML:element.sceneNumber];
+                [text appendFormat:@"<span class='scene-number-left'>%@</span>", escapedNumber];
+                [text appendString:escapedText];
+                [text appendFormat:@"<span class='scene-number-right'>%@</span>", escapedNumber];
             }
             else {
-                [text appendString:element.elementText];
+                [text appendString:escapedText];
             }
             
             if ([element.elementType isEqualToString:@"Character"] && element.isDualDialogue) {
@@ -243,15 +278,18 @@
                 [text replaceOccurrencesOfRegex:@"^\\!" withString:@""];
             }
             
-            [text replaceOccurrencesOfRegex:BOLD_ITALIC_UNDERLINE_PATTERN withString:@"<strong><em><u>$2</strong></em></u>"];
-            [text replaceOccurrencesOfRegex:BOLD_ITALIC_PATTERN withString:@"<strong><em>$2</strong></em>"];
+            // Tags have to close in the order they opened.
+            [text replaceOccurrencesOfRegex:BOLD_ITALIC_UNDERLINE_PATTERN withString:@"<strong><em><u>$2</u></em></strong>"];
+            [text replaceOccurrencesOfRegex:BOLD_ITALIC_PATTERN withString:@"<strong><em>$2</em></strong>"];
             [text replaceOccurrencesOfRegex:BOLD_UNDERLINE_PATTERN withString:@"<strong><u>$2</u></strong>"];
-            [text replaceOccurrencesOfRegex:ITALIC_UNDERLINE_PATTERN withString:@"<em><u>$2</em></u>"];
+            [text replaceOccurrencesOfRegex:ITALIC_UNDERLINE_PATTERN withString:@"<em><u>$2</u></em>"];
             [text replaceOccurrencesOfRegex:BOLD_PATTERN withString:@"<strong>$2</strong>"];
             [text replaceOccurrencesOfRegex:ITALIC_PATTERN withString:@"<em>$2</em>"];
             [text replaceOccurrencesOfRegex:UNDERLINE_PATTERN withString:@"<u>$2</u>"];
-            
-            [text replaceOccurrencesOfRegex:@"\\[{2}(.*?)\\]{2}" withString:@""];
+
+            // Notes are omitted from formatted output, including ones that run
+            // across line breaks -- hence (?s).
+            [text replaceOccurrencesOfRegex:@"(?s)\\[{2}.*?\\]{2}" withString:@""];
             
             if (![text isEqualToString:@""]) {
                 NSMutableString *additionalClasses = [NSMutableString string];

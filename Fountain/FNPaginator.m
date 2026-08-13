@@ -40,7 +40,7 @@
 {
     self = [super init];
     if (self) {
-        _pages = [[NSMutableArray alloc] initWithObjects:nil];
+        _pages = [[NSMutableArray alloc] init];
         _script = aScript;
     }
     return self;

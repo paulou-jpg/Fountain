@@ -40,13 +40,13 @@
 - (void)testPageBreak
 {
 	NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Page Break", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Page Break", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testLongPageBreakMark
 {
 	NSUInteger index = 3;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Page Break", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Page Break", @"%@", [self errorForIndex:index]);
 }
 
 @end

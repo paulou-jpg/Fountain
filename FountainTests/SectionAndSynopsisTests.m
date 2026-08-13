@@ -58,7 +58,7 @@
     FNElement *element = (self.script.elements)[index];
     
     if (![element.elementType isEqualToString:@"Section Heading"])
-        STFail(@"Element at index %u is not a section header", index);
+        XCTFail(@"Element at index %u is not a section header", index);
         
     return element.sectionDepth;
 }
@@ -68,21 +68,21 @@
 - (void)testSectionHeader
 {
     NSUInteger index = 3;
-    STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForElementAtIndex:index]);
-    STAssertEquals((int)[self sectionDepthOfElementAtIndex:index], 1, [self errorForElementAtIndex:index]);
+    XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForElementAtIndex:index]);
+    XCTAssertEqual((int)[self sectionDepthOfElementAtIndex:index], 1, @"%@", [self errorForElementAtIndex:index]);
 }
 
 - (void)testSectionHeaderWithoutPrecedingNewline
 {
     NSUInteger index = 4;
-    STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForElementAtIndex:index]);
-    STAssertEquals((int)[self sectionDepthOfElementAtIndex:index], 2, [self errorForElementAtIndex:index]);
+    XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForElementAtIndex:index]);
+    XCTAssertEqual((int)[self sectionDepthOfElementAtIndex:index], 2, @"%@", [self errorForElementAtIndex:index]);
 }
 
 - (void)testSynopsisWithoutPrecedingNewline
 {
     NSUInteger index = 1;
-    STAssertEqualObjects([self elementTypeAtIndex:index], @"Synopsis", [self errorForElementAtIndex:index]);
+    XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Synopsis", @"%@", [self errorForElementAtIndex:index]);
 }
 
 @end

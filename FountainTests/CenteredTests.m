@@ -39,25 +39,25 @@
 - (void)testCentered
 {
 	NSUInteger index = 0;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Action", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Action", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testNotCentered
 {
 	NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Transition", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testNoSpacesBetweenBrackets
 {
 	NSUInteger index = 2;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Action", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Action", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testLotsOfSpaceBetweenBrackets
 {
 	NSUInteger index = 3;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Action", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Action", @"%@", [self errorForIndex:index]);
 }
 
 @end

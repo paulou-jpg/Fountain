@@ -20,3 +20,13 @@ DerivedData
 
 #CocoaPods
 Pods
+
+# Build products at the repository root
+/build/
+
+# Locally built command line tools
+/bin/
+
+# Reference screenplays -- these stay local and are never pushed
+/other_pdfs/
+/bigfish/

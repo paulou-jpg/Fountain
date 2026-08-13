@@ -39,7 +39,7 @@
 - (void)testSingleLineNote
 {
 	NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Comment", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Comment", @"%@", [self errorForIndex:index]);
 }
 
 @end

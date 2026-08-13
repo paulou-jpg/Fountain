@@ -23,9 +23,9 @@
 //  IN THE SOFTWARE.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface BaseElementTests : SenTestCase
+@interface BaseElementTests : XCTestCase
 
 @property (strong, nonatomic) NSArray *elements;
 

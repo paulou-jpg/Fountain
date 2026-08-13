@@ -22,8 +22,8 @@
 //  IN THE SOFTWARE.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface FountainWriterTests : SenTestCase
+@interface FountainWriterTests : XCTestCase
 
 @end

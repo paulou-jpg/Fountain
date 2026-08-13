@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Nima Yousefi. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface SectionAndSynopsisTests : SenTestCase
+@interface SectionAndSynopsisTests : XCTestCase
 
 @end

@@ -22,8 +22,8 @@
 //  IN THE SOFTWARE.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface BrickAndSteelTests : SenTestCase
+@interface BrickAndSteelTests : XCTestCase
 
 @end

@@ -51,7 +51,7 @@
 
 - (void)testScriptLoading
 {
-    STAssertNotNil(self.script, @"The script wasn't able to load.");
+    XCTAssertNotNil(self.script, @"The script wasn't able to load.");
 }
 
 - (void)testSceneHeadings
@@ -60,7 +60,7 @@
     NSInteger maxIndexes = sizeof(indexes)/sizeof(NSInteger);
     for (int i=0; i < maxIndexes; i++) {
         FNElement *element = (self.script.elements)[indexes[i]];
-        STAssertEqualObjects(element.elementType, @"Scene Heading", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
+        XCTAssertEqualObjects(element.elementType, @"Scene Heading", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
     }
 }
 
@@ -70,7 +70,7 @@
     NSInteger maxIndexes = sizeof(indexes)/sizeof(NSInteger);
     for (int i=0; i < maxIndexes; i++) {
         FNElement *element = (self.script.elements)[indexes[i]];
-        STAssertEqualObjects(element.elementType, @"Character", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
+        XCTAssertEqualObjects(element.elementType, @"Character", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
     }
 }
 
@@ -80,7 +80,7 @@
     NSInteger maxIndexes = sizeof(indexes)/sizeof(NSInteger);
     for (int i=0; i < maxIndexes; i++) {
         FNElement *element = (self.script.elements)[indexes[i]];
-        STAssertEqualObjects(element.elementType, @"Dialogue", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
+        XCTAssertEqualObjects(element.elementType, @"Dialogue", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
     }
 }
 
@@ -90,7 +90,7 @@
     NSInteger maxIndexes = sizeof(indexes)/sizeof(NSInteger);
     for (int i=0; i < maxIndexes; i++) {
         FNElement *element = (self.script.elements)[indexes[i]];
-        STAssertEqualObjects(element.elementType, @"Parenthetical", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
+        XCTAssertEqualObjects(element.elementType, @"Parenthetical", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
     }
 }
 
@@ -100,7 +100,7 @@
     NSInteger maxIndexes = sizeof(indexes)/sizeof(NSInteger);
     for (int i=0; i < maxIndexes; i++) {
         FNElement *element = (self.script.elements)[indexes[i]];
-        STAssertEqualObjects(element.elementType, @"Transition", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
+        XCTAssertEqualObjects(element.elementType, @"Transition", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
     }
 }
 
@@ -110,7 +110,7 @@
     NSInteger maxIndexes = sizeof(indexes)/sizeof(NSInteger);
     for (int i=0; i < maxIndexes; i++) {
         FNElement *element = (self.script.elements)[indexes[i]];
-        STAssertEqualObjects(element.elementType, @"Page Break", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
+        XCTAssertEqualObjects(element.elementType, @"Page Break", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
     }
 }
 
@@ -120,7 +120,7 @@
     NSInteger maxIndexes = sizeof(indexes)/sizeof(NSInteger);
     for (int i=0; i < maxIndexes; i++) {
         FNElement *element = (self.script.elements)[indexes[i]];
-        STAssertEqualObjects(element.elementType, @"Action", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
+        XCTAssertEqualObjects(element.elementType, @"Action", @"Index %d: [%@] %@", indexes[i], element.elementType, element.elementText);
     }
 }
 
@@ -130,7 +130,7 @@
 {
     NSInteger numberOfTitlePageElements = [self.script.titlePage count];
     NSInteger expectedNumberOfElements = 6;
-    STAssertEquals(expectedNumberOfElements, numberOfTitlePageElements, nil);
+    XCTAssertEqual(expectedNumberOfElements, numberOfTitlePageElements);
 }
 
 - (void)testTitle
@@ -138,10 +138,10 @@
     NSArray *title = (self.script.titlePage)[0][@"title"];
     NSInteger actualCount = [title count];
     NSInteger expectedCount = 1;
-    STAssertEquals(actualCount, expectedCount, nil);
+    XCTAssertEqual(actualCount, expectedCount);
     
     NSString *titleValue = title[0];
-    STAssertEqualObjects(titleValue, @"Big Fish", nil);
+    XCTAssertEqualObjects(titleValue, @"Big Fish");
 }
 
 - (void)testCredit
@@ -149,10 +149,10 @@
     NSArray *credit = (self.script.titlePage)[1][@"credit"];
     NSInteger actualCount = [credit count];
     NSInteger expectedCount = 1;
-    STAssertEquals(actualCount, expectedCount, nil);
+    XCTAssertEqual(actualCount, expectedCount);
     
     NSString *creditValue = credit[0];
-    STAssertEqualObjects(creditValue, @"written by", nil);
+    XCTAssertEqualObjects(creditValue, @"written by");
 }
 
 - (void)testNotes
@@ -160,10 +160,10 @@
     NSArray *notes = (self.script.titlePage)[4][@"notes"];
     NSInteger actualCount = [notes count];
     NSInteger expectedCount = 3;
-    STAssertEquals(actualCount, expectedCount, nil);
+    XCTAssertEqual(actualCount, expectedCount);
     
     NSString *noteValue = notes[0];
-    STAssertEqualObjects(noteValue, @"FINAL PRODUCTION DRAFT", nil);
+    XCTAssertEqualObjects(noteValue, @"FINAL PRODUCTION DRAFT");
 }
 
 

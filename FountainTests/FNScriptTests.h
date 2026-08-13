@@ -22,8 +22,8 @@
 //  IN THE SOFTWARE.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface FNScriptTests : SenTestCase
+@interface FNScriptTests : XCTestCase
 
 @end

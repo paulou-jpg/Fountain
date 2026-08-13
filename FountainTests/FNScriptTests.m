@@ -51,7 +51,7 @@
 {
     NSString *string = @"FADE IN:";
     FNScript *testScript = [[FNScript alloc] initWithString:string];
-    STAssertNotNil(testScript, @"Script did not init with this string: %@", string);
+    XCTAssertNotNil(testScript, @"Script did not init with this string: %@", string);
 }
 
 - (void)testLoadFile
@@ -59,14 +59,14 @@
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSString *path = [bundle pathForResource:@"Big Fish" ofType:@"fountain"];
     [script loadFile:path];
-    STAssertNotNil(script, @"Script did not load the file: %@", path);
+    XCTAssertNotNil(script, @"Script did not load the file: %@", path);
 }
 
 - (void)testLoadString
 {
     NSString *string = @"FADE IN:";
     [script loadString:string];
-    STAssertNotNil(script, @"Script did not load the string: %@", string);
+    XCTAssertNotNil(script, @"Script did not load the string: %@", string);
 }
 
 - (void)testStringFromTitlePage
@@ -75,7 +75,7 @@
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSString *path = [bundle pathForResource:@"Simple" ofType:@"fountain"];
     [script loadFile:path];
-    STAssertEqualObjects(expectedString, [script stringFromTitlePage], nil);
+    XCTAssertEqualObjects(expectedString, [script stringFromTitlePage]);
 }
 
 - (void)testElementDescription
@@ -87,28 +87,28 @@
     NSString *actualString;
     NSString *expectedString;
     
-    // You need to call -description in order for the tests to work. If you omit the -description the tests will fail,
-    // but the output will appear to be correct. I'm guessing this is because of how STAssertEqualObjects is doing the
-    // checking. I don't care enough to investigate further.
+    // Compare -description rather than the element itself: FNElement does not
+    // override -isEqual:, so XCTAssertEqualObjects would compare identity and
+    // fail even when the parsed output is right.
     actualString = [elements[0] description];
     expectedString = @"Action: FADE IN:";
-    STAssertEqualObjects(actualString, expectedString, nil);
+    XCTAssertEqualObjects(actualString, expectedString);
     
     actualString = [elements[1] description];
     expectedString = @"Scene Heading: INT. HOUSE - DAY";
-    STAssertEqualObjects(actualString, expectedString, nil);
+    XCTAssertEqualObjects(actualString, expectedString);
 
     actualString = [elements[2] description];
     expectedString = @"Character: MAN";
-    STAssertEqualObjects(actualString, expectedString, nil);
+    XCTAssertEqualObjects(actualString, expectedString);
 
     actualString = [elements[3] description];
     expectedString = @"Dialogue: I'm in the house.";
-    STAssertEqualObjects(actualString, expectedString, nil);
+    XCTAssertEqualObjects(actualString, expectedString);
 
     actualString = [elements[4] description];
     expectedString = @"Action (centered): The end.";
-    STAssertEqualObjects(actualString, expectedString, nil);
+    XCTAssertEqualObjects(actualString, expectedString);
 }
 
 - (void)testScriptDescription
@@ -116,12 +116,12 @@
     NSString *string = @"FADE IN:\n\nINT. HOUSE - DAY\n\nMAN\nI'm in the house.\n\n> The end. <";
     [script loadString:string];
     
-    // You need to call -description in order for the tests to work. If you omit the -description the tests will fail,
-    // but the output will appear to be correct. I'm guessing this is because of how STAssertEqualObjects is doing the
-    // checking. I don't care enough to investigate further.
+    // Compare -description rather than the element itself: FNElement does not
+    // override -isEqual:, so XCTAssertEqualObjects would compare identity and
+    // fail even when the parsed output is right.
     NSString *actualString = [script description];
     NSString *expectedString = string;
-    STAssertEqualObjects(actualString, expectedString, nil);
+    XCTAssertEqualObjects(actualString, expectedString);
 }
 
 - (void)testTitlesWithoutColons
@@ -129,12 +129,12 @@
     NSString *string = @"Title:\n\tI KNOW WHAT YOU DID\n\tLAST SUMMER";
     [script loadString:string];
     
-    // You need to call -description in order for the tests to work. If you omit the -description the tests will fail,
-    // but the output will appear to be correct. I'm guessing this is because of how STAssertEqualObjects is doing the
-    // checking. I don't care enough to investigate further.
+    // Compare -description rather than the element itself: FNElement does not
+    // override -isEqual:, so XCTAssertEqualObjects would compare identity and
+    // fail even when the parsed output is right.
     NSString *actualString = [script description];
     NSString *expectedString = string;
-    STAssertEqualObjects(actualString, expectedString, nil);
+    XCTAssertEqualObjects(actualString, expectedString);
 }
 
 - (void)testTitlesWithColons
@@ -142,12 +142,12 @@
     NSString *string = @"Title:\n\tI KNOW WHAT YOU DID:\n\tLAST SUMMER";
     [script loadString:string];
     
-    // You need to call -description in order for the tests to work. If you omit the -description the tests will fail,
-    // but the output will appear to be correct. I'm guessing this is because of how STAssertEqualObjects is doing the
-    // checking. I don't care enough to investigate further.
+    // Compare -description rather than the element itself: FNElement does not
+    // override -isEqual:, so XCTAssertEqualObjects would compare identity and
+    // fail even when the parsed output is right.
     NSString *actualString = [script description];
     NSString *expectedString = string;
-    STAssertEqualObjects(actualString, expectedString, nil);
+    XCTAssertEqualObjects(actualString, expectedString);
 }
 
 @end

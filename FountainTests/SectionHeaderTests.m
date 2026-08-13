@@ -45,42 +45,42 @@
 - (void)testSectionHeader
 {
 	NSUInteger index = 0;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testNoSpaceBetweenHashAndHeader
 {
 	NSUInteger index = 1;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testAllCapsNoSpace
 {
 	NSUInteger index = 2;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testAllCaps
 {
 	NSUInteger index = 3;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testNumberOnly
 {
 	NSUInteger index = 4;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForIndex:index]);
 }
 
 - (void)testSectionDepth
 {
 	NSUInteger index = 5;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForIndex:index]);
-	STAssertEquals([self sectionDepthOfElementAtIndex:index], (NSUInteger)2, [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForIndex:index]);
+	XCTAssertEqual([self sectionDepthOfElementAtIndex:index], (NSUInteger)2, @"%@", [self errorForIndex:index]);
 	
 	index = 6;
-	STAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", [self errorForIndex:index]);
-	STAssertEquals([self sectionDepthOfElementAtIndex:index], (NSUInteger)3, [self errorForIndex:index]);
+	XCTAssertEqualObjects([self elementTypeAtIndex:index], @"Section Heading", @"%@", [self errorForIndex:index]);
+	XCTAssertEqual([self sectionDepthOfElementAtIndex:index], (NSUInteger)3, @"%@", [self errorForIndex:index]);
 }
 
 @end
