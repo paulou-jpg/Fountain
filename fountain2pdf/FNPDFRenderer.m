@@ -527,20 +527,35 @@ typedef NSArray<FNPDFLine *> FNPDFRow;
             i += 2;
             continue;
         }
-        if (c == '*') {
+        if (c == '*' || c == '_') {
             NSUInteger run = 0;
-            while (i + run < text.length && [text characterAtIndex:i + run] == '*') run++;
+            while (i + run < text.length && [text characterAtIndex:i + run] == c) run++;
+
+            /*
+             "Spaces around emphasis markers prevent interpretation" -- a marker
+             opens only when something follows it immediately, and closes only
+             when something precedes it. A lone asterisk at the end of a line is
+             text, not markup, and must not be swallowed.
+             */
+            BOOL spaceBefore = (i == 0) || [[NSCharacterSet whitespaceCharacterSet]
+                                            characterIsMember:[text characterAtIndex:i - 1]];
+            BOOL spaceAfter = (i + run >= text.length) || [[NSCharacterSet whitespaceCharacterSet]
+                                                           characterIsMember:[text characterAtIndex:i + run]];
+            BOOL active = (c == '_') ? underline : (run >= 2 ? bold : italic);
+            BOOL isMarker = active ? !spaceBefore : !spaceAfter;
+
+            if (!isMarker) {
+                for (NSUInteger k = 0; k < run; k++) [current appendFormat:@"%C", c];
+                i += run;
+                continue;
+            }
+
             flush();
-            if (run >= 3)      { bold = !bold; italic = !italic; }
+            if (c == '_')      { underline = !underline; }
+            else if (run >= 3) { bold = !bold; italic = !italic; }
             else if (run == 2) { bold = !bold; }
             else               { italic = !italic; }
             i += run;
-            continue;
-        }
-        if (c == '_') {
-            flush();
-            underline = !underline;
-            i += 1;
             continue;
         }
         [current appendFormat:@"%C", c];

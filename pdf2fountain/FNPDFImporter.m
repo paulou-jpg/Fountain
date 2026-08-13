@@ -91,6 +91,18 @@ static BOOL P2FIsUpper(NSString *s)
     return sawLetter;
 }
 
+/*
+ What the parser accepts as a character cue, copied from FastFountainParser so
+ the two agree: uppercase with at least one letter, optionally followed by an
+ extension in parentheses which may be lower case, and an optional caret. A cue
+ only needs forcing with "@" when this does NOT match -- testing for "all
+ uppercase" instead forces every "LYNN (V.O.) (cont'd)" for no reason.
+ */
+static BOOL P2FParserReadsAsCue(NSString *s)
+{
+    return P2FMatchesCS(s, @"^[ \\t]*[^a-z\\n]*[A-Z][^a-z\\n]*(\\([^)\\n]*\\))?[ \\t]*\\^?[ \\t]*$");
+}
+
 // Slug prefixes, matching the parser's own recognition.
 static BOOL P2FLooksLikeSlug(NSString *s)
 {
@@ -232,6 +244,67 @@ static NSArray<P2FLine *> *P2FLinesForPage(PDFPage *page, NSInteger pageIndex)
     CGFloat splitX = NSMidX(pageBounds);
 
     /*
+     Revision marks. A revised draft carries a change mark in the right margin
+     of every altered line, and PDFKit folds it into that line's text: a heading
+     arrives as "INT. INDUSTRIAL SPACE - AFTERMATH *".
+
+     The mark sits in a fixed column outside the text block, so it is found by
+     position rather than by measuring the gap before it. Comparing against the
+     character advance does not work here -- on a page where most lines carry a
+     mark, the advance is computed from those same lines and the gap disappears
+     into it. The right edge of the widest unmarked line is a reference the
+     marks cannot contaminate.
+     */
+    NSMutableArray<P2FLine *> *marked = [NSMutableArray array];
+    CGFloat widestUnmarked = 0;
+    NSUInteger unmarkedCount = 0;
+    for (P2FLine *line in lines) {
+        if ([P2FTrim(line.text) hasSuffix:@"*"]) { [marked addObject:line]; continue; }
+        widestUnmarked = MAX(widestUnmarked, line.right);
+        unmarkedCount++;
+    }
+
+    /*
+     The marks calibrate themselves: they sit in one column, so two or more
+     sharing a right edge identify it. That works on a heavily revised page
+     where almost every line carries a mark and there is no clean line to
+     compare against -- page 100 of the reference is 19 lines, 15 of them
+     marked. An isolated mark falls back to the widest unmarked line.
+     */
+    NSCountedSet *rightEdges = [NSCountedSet set];
+    for (P2FLine *line in marked) [rightEdges addObject:@((NSInteger)llround(line.right))];
+    CGFloat markColumn = 0;
+    NSUInteger best = 1;
+    for (NSNumber *edge in rightEdges) {
+        if ([rightEdges countForObject:edge] > best) {
+            best = [rightEdges countForObject:edge];
+            markColumn = [edge doubleValue];
+        }
+    }
+
+    if (marked.count) {
+        NSMutableArray<P2FLine *> *keptLines = [NSMutableArray array];
+        for (P2FLine *line in lines) {
+            NSString *t = P2FTrim(line.text);
+            BOOL isMark = NO;
+            if ([t hasSuffix:@"*"]) {
+                if (markColumn > 0) isMark = (fabs(line.right - markColumn) <= 1.0);
+                else if (unmarkedCount >= 5) isMark = (line.right > widestUnmarked + charAdvance);
+            }
+            if (isMark) {
+                NSString *body = P2FTrim([t substringToIndex:t.length - 1]);
+                if (body.length == 0) continue;              // the line was only a mark
+                line.text = body;
+                line.right = line.left + body.length * charAdvance;
+                line.bounds = NSMakeRect(line.left, NSMinY(line.bounds),
+                                         line.right - line.left, NSHeight(line.bounds));
+            }
+            [keptLines addObject:line];
+        }
+        lines = keptLines;
+    }
+
+    /*
      Dual dialogue is decided by baseline, and only then are merged rows taken
      apart. PDFKit merges some side-by-side rows into one selection and reports
      others separately, so a row qualifies either way:
@@ -251,6 +324,48 @@ static NSArray<P2FLine *> *P2FLinesForPage(PDFPage *page, NSInteger pageIndex)
         if (row && fabs([(P2FLine *)row.firstObject top] - line.top) <= 2.0) [row addObject:line];
         else [rows addObject:[NSMutableArray arrayWithObject:line]];
     }
+
+    /*
+     A parenthetical arrives as two overlapping runs: the brackets as "( )" and
+     the word between them as its own line, starting one character inside. Left
+     alone that yields an empty parenthetical and a stray line of dialogue.
+     Where the two overlap, they are one parenthetical and are put back together.
+     */
+    for (NSMutableArray<P2FLine *> *row in rows) {
+        if (row.count != 2) continue;
+        NSArray *sorted = [row sortedArrayUsingComparator:^NSComparisonResult(P2FLine *a, P2FLine *b) {
+            return a.left < b.left ? NSOrderedAscending : NSOrderedDescending;
+        }];
+        P2FLine *a = sorted[0], *b = sorted[1];
+
+        /*
+         One run holds only brackets. Which brackets varies -- "( )" around the
+         word, or a lone ")" after it, and sometimes the opening one is missing
+         from the extraction altogether -- so the content is taken from the
+         other run and the parentheses are simply rewritten.
+         */
+        P2FLine *brackets = nil, *content = nil;
+        if (P2FMatchesCS(P2FTrim(a.text), @"^[()\\s]+$") && P2FTrim(b.text).length) { brackets = a; content = b; }
+        else if (P2FMatchesCS(P2FTrim(b.text), @"^[()\\s]+$") && P2FTrim(a.text).length) { brackets = b; content = a; }
+        if (!brackets) continue;
+        if (![P2FTrim(brackets.text) containsString:@"("] && ![P2FTrim(brackets.text) containsString:@")"]) continue;
+
+        // They must belong together: overlapping, or all but touching.
+        CGFloat gap = MAX(brackets.left, content.left) - MIN(brackets.right, content.right);
+        if (gap > charAdvance * 2.0) continue;
+
+        P2FLine *keep = (brackets.left <= content.left) ? brackets : content;
+        P2FLine *drop = (keep == brackets) ? content : brackets;
+        keep.text = [NSString stringWithFormat:@"(%@)", P2FCollapseSpaces(P2FTrim(content.text))];
+        keep.left = MIN(brackets.left, content.left);
+        keep.right = MAX(brackets.right, content.right);
+        [row removeObject:drop];
+    }
+
+    // Rebuild the flat list from the repaired rows.
+    NSMutableArray<P2FLine *> *repaired = [NSMutableArray array];
+    for (NSArray *row in rows) [repaired addObjectsFromArray:row];
+    lines = repaired;
 
     /*
      A dual right-hand column is a block of speech that begins not far right of
@@ -631,10 +746,8 @@ static NSString *P2FBuildFountain(NSArray<P2FLine *> *lines, NSDictionary *title
                 [out appendFormat:@"> %@ <\n", text];
                 break;
             case P2FKindCharacter: {
-                // Mixed-case cues have to be forced or they read as action.
-                if (!P2FIsUpper([text stringByReplacingOccurrencesOfString:@"^" withString:@""])) {
-                    [out appendString:@"@"];
-                }
+                // Force only when the parser would not read this as a cue.
+                if (!P2FParserReadsAsCue(text)) [out appendString:@"@"];
                 [out appendFormat:@"%@\n", text];
                 break;
             }
@@ -676,8 +789,10 @@ static NSString *P2FBuildFountain(NSArray<P2FLine *> *lines, NSDictionary *title
         if (out.length > 0 && ![out hasSuffix:@"\n\n"]) [out appendString:@"\n"];
 
         NSString *cue = P2FCollapseSpaces(P2FTrim(column[0].text));
-        if (!P2FIsUpper(cue)) [out appendString:@"@"];      // mixed-case cues must be forced
-        [out appendFormat:@"%@%@\n", cue, isSecond ? @" ^" : @""];
+        // The caret is appended below, so test the cue as the parser will see it.
+        NSString *asWritten = isSecond ? [cue stringByAppendingString:@" ^"] : cue;
+        if (!P2FParserReadsAsCue(asWritten)) [out appendString:@"@"];
+        [out appendFormat:@"%@\n", asWritten];
 
         NSMutableString *speech = [NSMutableString string];
         for (NSUInteger k = 1; k < column.count; k++) {

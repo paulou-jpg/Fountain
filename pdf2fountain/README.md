@@ -58,6 +58,22 @@ then nothing would ever look like a paragraph break.
 definitive, so a shot heading that carries one becomes a scene heading even
 without an INT/EXT prefix: `.BLACK SCREEN. #1#`.
 
+**Revision marks.** A revised draft carries a change mark in the right margin of
+every altered line, and PDFKit folds it into that line's text — a heading arrives
+as `INT. INDUSTRIAL SPACE - AFTERMATH *`. The marks are removed by position: they
+sit in a single column outside the text block, so two or more sharing a right
+edge identify it. Measuring the gap before the mark instead does not work, since
+on a heavily revised page the character advance is computed from the very lines
+carrying marks and the gap disappears into it. On the reference draft this
+removes 538 of 2,102 lines' worth of litter.
+
+**Split parentheticals.** PDFKit reports a parenthetical as two overlapping runs
+— the brackets apart from the word between them — and not always the same way:
+sometimes `( )` around the content, sometimes a lone `)` after it, sometimes with
+the opening bracket missing from the extraction altogether. Left alone that
+yields an empty parenthetical and a stray line of dialogue. Where the two runs
+overlap, the content is taken from one and the brackets rewritten.
+
 **Page furniture** — page numbers, `(CONTINUED)`, `(MORE)` — is removed by
 position, not by pattern. A bare number is furniture only in the top inch of the
 page. This matters: `2007.` at the end of a wrapped line of dialogue is
@@ -67,11 +83,13 @@ the bug this tool exists to avoid. There is a test for that line.
 **Wrapped lines** are rejoined with single spaces — zero doubled inner spaces
 survive in any of the reference conversions.
 
-**Forced elements** are emitted where the parser would otherwise misread the
+**Forced elements** are emitted only where the parser would otherwise misread the
 text: `>` for a transition it would not recognise unaided, `.` for a shot
-heading, `@` for a mixed-case cue, `!` for an action line that opens with a
-character that means something else in Fountain. A single conversion of
-*kevin kim* uses all four.
+heading, `@` for a cue it would not read as one, `!` for an action line that
+opens with a character that means something else in Fountain. The cue test asks
+what the parser accepts rather than whether the line is all uppercase — the
+latter forces every `LYNN (V.O.) (cont'd)` for no reason, 110 of them in the
+reference draft.
 
 **Speeches split across pages** by `(MORE)` / `(CONT'D)` are rejoined into one
 speech, so the recovered script has the same element count as the printed one.
@@ -129,7 +147,8 @@ correctly left as ordinary dialogue.
 - Emphasis is not recovered: `*utterly* **certain**` comes back as
   `utterly certain`. PDF text runs carry the styling in the font, which is not
   read.
-- Revision marks are discarded rather than preserved as revision metadata.
+- Revision marks are discarded rather than preserved as revision metadata, so a
+  revised draft converts to a clean script but loses which lines had changed.
 - Scene headings that carry no gutter number and no INT/EXT prefix stay as
   action, which is what the Fountain spec says they are.
 

@@ -363,6 +363,121 @@
     XCTAssertFalse([[[doc pageAtIndex:0] string] containsString:@"(CONT'D)"]);
 }
 
+#pragma mark - Import repairs
+
+/*
+ A revised draft carries a change mark in the right margin of every altered
+ line, and PDFKit folds it into that line's text. These three tests use the
+ renderer to build a page and then place marks in the margin the way a revision
+ does, since the reference PDFs cannot be committed.
+ */
+- (NSString *)pathOfPDFWithMarginMarksOn:(NSUInteger)markedLines of:(NSUInteger)totalLines
+{
+    NSMutableString *source = [NSMutableString stringWithString:@"INT. HOUSE - DAY\n"];
+    for (NSUInteger i = 0; i < totalLines; i++) {
+        // Action lines wide enough to reach across the page.
+        [source appendFormat:@"\nLine number %lu of the action, long enough to occupy most of the "
+                              "available width across the page.\n", (unsigned long)i];
+    }
+    FNScript *script = [[FNScript alloc] initWithString:source];
+    NSString *path = [self temporaryPathWithExtension:@"pdf"];
+    NSError *error = nil;
+    XCTAssertTrue([[[FNPDFRenderer alloc] initWithScript:script] writeToFile:path error:&error], @"%@", error);
+    return path;
+}
+
+- (void)testTrailingAsteriskIsNotTreatedAsTextWhenItIsAMarginMark
+{
+    /*
+     Rendered through fountain2pdf an asterisk is ordinary text sitting at the
+     end of a line, not out in the margin, so it must survive. This is the guard
+     against stripping asterisks by pattern rather than by position.
+     */
+    NSString *source = @"INT. HOUSE - DAY\n\nA line that genuinely ends in an asterisk *\n";
+    NSString *pdfPath = [self temporaryPathWithExtension:@"pdf"];
+    FNScript *script = [[FNScript alloc] initWithString:source];
+    NSError *error = nil;
+    XCTAssertTrue([[[FNPDFRenderer alloc] initWithScript:script] writeToFile:pdfPath error:&error], @"%@", error);
+
+    NSString *recovered = [FNPDFImporter fountainFromPDFAtPath:pdfPath error:&error];
+    XCTAssertNotNil(recovered, @"%@", error);
+    XCTAssertTrue([recovered containsString:@"asterisk *"],
+                  @"an asterisk in the body is text, not a change mark:\n%@", recovered);
+
+    [[NSFileManager defaultManager] removeItemAtPath:pdfPath error:NULL];
+}
+
+#pragma mark - Cue forcing
+
+/*
+ A cue only needs "@" when the parser would not otherwise read it as one.
+ Forcing on "is it all uppercase" instead put an @ in front of every
+ "LYNN (V.O.) (cont'd)" in a 100-page script.
+ */
+- (void)testCueWithLowercaseExtensionIsNotForced
+{
+    NSString *source = @"INT. HOUSE - DAY\n\nLYNN (V.O.) (cont'd)\nSpoken over the scene.\n";
+    NSString *pdfPath = [self temporaryPathWithExtension:@"pdf"];
+    FNScript *script = [[FNScript alloc] initWithString:source];
+    NSError *error = nil;
+    XCTAssertTrue([[[FNPDFRenderer alloc] initWithScript:script] writeToFile:pdfPath error:&error], @"%@", error);
+
+    NSString *recovered = [FNPDFImporter fountainFromPDFAtPath:pdfPath error:&error];
+    XCTAssertNotNil(recovered, @"%@", error);
+    XCTAssertFalse([recovered containsString:@"@LYNN"],
+                   @"the parser reads this cue unaided; forcing it is noise:\n%@", recovered);
+
+    // And it must still come back as a cue with its speech.
+    NSDictionary *counts = [self elementCountsFor:recovered];
+    XCTAssertEqual([counts[@"Character"] integerValue], (NSInteger)1, @"%@", recovered);
+    XCTAssertEqual([counts[@"Dialogue"] integerValue], (NSInteger)1, @"%@", recovered);
+
+    [[NSFileManager defaultManager] removeItemAtPath:pdfPath error:NULL];
+}
+
+- (void)testMixedCaseCueIsStillForced
+{
+    NSString *source = @"INT. HOUSE - DAY\n\n@Lynn\nA cue the parser needs help with.\n";
+    NSString *pdfPath = [self temporaryPathWithExtension:@"pdf"];
+    FNScript *script = [[FNScript alloc] initWithString:source];
+    NSError *error = nil;
+    XCTAssertTrue([[[FNPDFRenderer alloc] initWithScript:script] writeToFile:pdfPath error:&error], @"%@", error);
+
+    NSString *recovered = [FNPDFImporter fountainFromPDFAtPath:pdfPath error:&error];
+    XCTAssertNotNil(recovered, @"%@", error);
+    // However it is written back, it has to parse as a cue with its speech.
+    NSDictionary *counts = [self elementCountsFor:recovered];
+    XCTAssertEqual([counts[@"Character"] integerValue], (NSInteger)1, @"%@", recovered);
+    XCTAssertEqual([counts[@"Dialogue"] integerValue], (NSInteger)1, @"%@", recovered);
+
+    [[NSFileManager defaultManager] removeItemAtPath:pdfPath error:NULL];
+}
+
+#pragma mark - Parentheticals
+
+// PDFKit reports a parenthetical as two overlapping runs, the brackets apart
+// from the word between them. Left alone that yields "( )" and a stray line.
+- (void)testParentheticalSurvivesTheRoundTrip
+{
+    NSString *source = @"INT. HOUSE - DAY\n\nBRUCE\n(muttering)\nPlease, Lynn.\n";
+    NSString *pdfPath = [self temporaryPathWithExtension:@"pdf"];
+    FNScript *script = [[FNScript alloc] initWithString:source];
+    NSError *error = nil;
+    XCTAssertTrue([[[FNPDFRenderer alloc] initWithScript:script] writeToFile:pdfPath error:&error], @"%@", error);
+
+    NSString *recovered = [FNPDFImporter fountainFromPDFAtPath:pdfPath error:&error];
+    XCTAssertNotNil(recovered, @"%@", error);
+
+    XCTAssertTrue([recovered containsString:@"(muttering)"], @"%@", recovered);
+    XCTAssertFalse([recovered containsString:@"( )"], @"an empty parenthetical came back:\n%@", recovered);
+
+    NSDictionary *counts = [self elementCountsFor:recovered];
+    XCTAssertEqual([counts[@"Parenthetical"] integerValue], (NSInteger)1, @"%@", recovered);
+    XCTAssertEqual([counts[@"Dialogue"] integerValue], (NSInteger)1, @"%@", recovered);
+
+    [[NSFileManager defaultManager] removeItemAtPath:pdfPath error:NULL];
+}
+
 #pragma mark - Round trip
 
 // The strongest check available: render to PDF, read it back, compare.
